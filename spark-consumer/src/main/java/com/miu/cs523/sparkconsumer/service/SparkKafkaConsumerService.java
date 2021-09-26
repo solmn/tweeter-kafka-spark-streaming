@@ -63,6 +63,7 @@ public class SparkKafkaConsumerService {
     	 
     	 /**
     	  *  Creating Streaming context
+    	  *  Spark  collects 10 seconds worth of data to process.
     	  * **/
          JavaStreamingContext streamingContext = new JavaStreamingContext(
         		 new SparkConf().setAppName("Tweets")
@@ -91,8 +92,11 @@ public class SparkKafkaConsumerService {
          
          stream.map(tweet -> tweet.value())
          		.flatMap(tweet -> HashTagsUtils.hashTagsFromTweet(tweet))
-	            .mapToPair(hashTag -> new Tuple2<>(hashTag, 1))
+	            .mapToPair(hashTag -> new Tuple2<>(hashTag, 1)) //// Map each hashtag to a key/value pair of (hashtag, 1)
+	            //so we can count them up by adding up the values
 	            .reduceByKeyAndWindow((x, y) -> x  + y, Durations.seconds(120), Durations.seconds(10))
+	            //capturing all the tweets according to the window duration.
+	            //We will be fetching previous 120-seconds tweets after every 10 second
 	            .mapToPair(tweet -> tweet.swap())
                 .foreachRDD(rrdd -> {
                      rrdd.sortByKey(false)

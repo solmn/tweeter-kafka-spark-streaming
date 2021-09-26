@@ -1,0 +1,35 @@
+// zookeeper
+zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties 
+
+// kafka
+kafka-topics create --topic tweets --bootstrap-server localhost:9092
+kafka-server-start /usr/local/etc/kafka/server.properties
+kafka-console-consumer --bootstrap-server localhost:9092 --topic tweets
+kafka-console-producer --bootstrap-server localhost:9092 --topic tweets
+
+// Hbase
+
+start-hbase.sh
+hbase shell
+
+// Hdfs
+hdfs namenode -format
+start-dfs.sh
+
+
+// Hive
+
+hadoop fs -mkdir -p ~/hive/warehouse
+hadoop fs -mkdir -p /tmp
+hadoop fs -chmod g+w ~/hive/warehouse
+hadoop fs -chmod g+w /tmp
+
+schematool -initSchema -dbType derby
+hive --service metastore
+hiveserver2
+hive
+
+//Zeppline
+cd Zeppline
+Zeppline-damon.sh start
+http://localhost:8090/
