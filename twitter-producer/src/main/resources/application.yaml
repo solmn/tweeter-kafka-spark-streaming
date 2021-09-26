@@ -5,7 +5,12 @@ spring:
         key-serializer: org.apache.kafka.common.serialization.StringSerializer
         value-serializer: org.apache.kafka.common.serialization.StringSerializer   
         
-  
+  social:
+    twitter:
+       consumerAPIKey: WBMT8GPUDFNxxSiZy8Zp3wiuK
+       consumerAPISecret: T8BdgdLSPSmxzHiLjzZNZwf313e9ORHN1Q3DNqYMyLcdJE3OfA
+       accessToken: 915885401117794304-wfxnyLiZhxoc9mI9S23g6zncXqnz34L
+       accessTokenSecrete: 24uPNSCG8EYVqmIm50FdYAqkTrcQawYsal1rUmBxKWhaR
        
 kafkaTopic: "tweets"
      
